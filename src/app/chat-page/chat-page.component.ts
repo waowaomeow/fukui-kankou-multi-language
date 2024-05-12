@@ -131,6 +131,9 @@ export class ChatPageComponent {
     this.recogStart()
   }
 
+  final_transcript = ''
+  interim_transcript = ''
+
   recogStart() {
     // 检查浏览器是否支持 Web Speech API
     if ('webkitSpeechRecognition' in window) {
@@ -146,13 +149,17 @@ export class ChatPageComponent {
 
       // 当识别到结果时
       this.recognition.onresult = (event: any) => {
-        let transcript = ''
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          transcript += event.results[i][0].transcript; // 获取结果
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            this.final_transcript += event.results[i][0].transcript;
+            this.query = this.final_transcript
+          } else {
+            this.interim_transcript += event.results[i][0].transcript;
+            this.query = this.interim_transcript
+          }
         }
-        this.query = transcript
         this.cdr.detectChanges();
-        console.log(transcript)
       };
 
       // 处理错误
@@ -174,6 +181,8 @@ export class ChatPageComponent {
 
   recogStop(){
     this.recognition.stop()
+    this.final_transcript = ''
+    this.interim_transcript = ''
     this.isRecognit = false
   }
 
