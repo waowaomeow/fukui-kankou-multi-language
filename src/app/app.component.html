@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="sider-menu">
+      <div class="flex-center">
+        <h2>LOGO</h2>
+      </div>
+      <div class="menu-block flex-center" (click)="chatpage.showChatHistory()">
+        <div class="menu-icon"><span nz-icon nzType="history" nzTheme="outline"></span></div>
+        <nz-divider nzType="vertical"></nz-divider>
+        <div class="memu-text">
+          History
+        </div>
+      </div>
+    </div>
+    <div class="chat-container">
+      <app-chat-page #chatpage></app-chat-page>
+    </div>
+  </div>

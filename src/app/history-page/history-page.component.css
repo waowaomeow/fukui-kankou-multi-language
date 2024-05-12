@@ -1,0 +1,8 @@
+.history-title{
+    font-weight: bold;
+    transition: color 0.5s ease;
+    cursor: pointer;
+}
+.history-title:hover{
+    color: rgb(13, 110, 253);
+}

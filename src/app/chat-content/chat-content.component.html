@@ -1,0 +1,12 @@
+<div class="chat-content-container">
+    <div class="chat-messages">
+        <ng-container *ngFor="let message of messages">
+            <div class="message" [class]="message.role=='user'?'sent':'received'">
+                {{ message.content }}
+            </div>
+        </ng-container>
+        <div class="message received load" *ngIf="isloading">
+            <nz-spin nzSimple [nzSpinning]="isloading"></nz-spin>
+        </div>
+    </div>
+</div>

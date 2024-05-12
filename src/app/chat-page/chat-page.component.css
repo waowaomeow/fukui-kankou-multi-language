@@ -1,0 +1,137 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.chat-content {
+    width: 790px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.bottom-content {
+    padding: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.input-content {
+    margin: auto;
+    max-width: 790px;
+}
+.setting-area {
+    max-width: 790px;
+    text-align: left;
+    margin-bottom: 8px;
+}
+.input-area {
+    background-color: #f7f7f7;
+    min-height: 156px;
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: all .2s ease;
+}
+textarea {
+    padding: 2px;
+    line-height: normal;
+    min-height: 98px;
+    max-height: 168px;
+    width: 100%;
+    background-color: #f7f7f7;
+    border: none;
+    resize: none;
+}
+.input-button-area {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.send-ready {
+    color: rgb(13, 110, 253);
+    cursor: pointer;
+}
+
+
+.send-empty {
+    cursor: not-allowed;
+}
+
+.icon-button{
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.5s ease;
+}
+.icon-button:hover{
+    color: rgb(13, 110, 253);
+}
+
+
+
+
+
+/* 整个滚动条的样式 */
+::-webkit-scrollbar {
+    width: 4px;
+    /* 滚动条的宽度 */
+    height: 10px;
+    /* 水平滚动条的高度 */
+}
+
+/* 滚动条的轨道 */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* 轨道的背景颜色 */
+    border-radius: 10px;
+    /* 轨道的圆角 */
+}
+
+/* 滚动条上的滑动块 */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    /* 滑块的背景颜色 */
+    border-radius: 10px;
+    /* 滑块的圆角 */
+}
+
+/* 滚动条上的滑动块悬停效果 */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* 滑块悬停时的背景颜色 */
+}
+
+@keyframes pulsate {
+    0% {
+      box-shadow: 0 0 3px #9ecaed, 0 0 6px #9ecaed, 0 0 9px #9ecaed;
+    }
+    50% {
+      box-shadow: 
+      0 0 3px #9ecaed, 
+      0 0 6px #9ecaed, 
+      0 0 9px #9ecaed, 
+      0 0 12px #9ecaed, 
+      0 0 15px #9ecaed, 
+      0 0 18px #9ecaed;
+    }
+    100% {
+      box-shadow: 0 0 3px #9ecaed, 0 0 6px #9ecaed, 0 0 9px #9ecaed;
+    }
+  }
+
+  .record-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    animation: pulsate 1.5s infinite;
+    position: relative; /* 必要的，否则z-index不会起作用 */
+    z-index: 10; /* 一个比周围元素高的z-index值 */
+  }

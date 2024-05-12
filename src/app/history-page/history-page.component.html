@@ -1,0 +1,11 @@
+<nz-list class="demo-loadmore-list" >
+    <ng-container *ngFor="let messages of historyMessages;let i=index">
+        <nz-list-item>
+            <div (click)="historyLoad(i)">
+                <div class="history-title">
+                    {{ messages[0].content }}
+                </div>
+            </div>
+        </nz-list-item>
+    </ng-container>
+  </nz-list>

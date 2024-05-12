@@ -1,0 +1,72 @@
+<div class="chat-container">
+    <div class="chat-content">
+        <div [hidden]="this.messages.length==0">
+            <app-chat-content [messages]="messages"></app-chat-content>
+        </div>
+        <ng-container *ngIf="this.messages.length==0">
+            <div>
+                <h1>What can i help you</h1>
+            </div>
+        </ng-container>
+
+    </div>
+    <div class="bottom-content">
+        <div class="input-content">
+            <div class="setting-area">
+                <nz-radio-group [(ngModel)]="langSetting" (ngModelChange)="langSetChange()">
+                    <label nz-radio-button nzValue="zh-CN">中文</label>
+                    <label nz-radio-button nzValue="en-US">English</label>
+                    <label nz-radio-button nzValue="cmn-Hant-TW">中国台湾</label>
+                    <label nz-radio-button nzValue="ja-JP">日本語</label>
+                  </nz-radio-group>
+            </div>
+            <div class="input-area" #inputarea>
+                
+                <textarea nzBorderless nz-input (keydown)="handleKeyDown($event)" [nzAutosize]="true"
+                    placeholder="输入消息..." (blur)="inputAreaBlur()" (focus)="inputAreaFocus()"
+                    class="ant-input custom-scrollbar" [(ngModel)]="query"></textarea>
+                <div class="input-button-area">
+                    <div>
+                        <ng-container *ngIf="isRecognit">
+                            <button class="record-btn" (click)="recogStop()">
+                                <span nz-icon class="icon-button" nzType="audio" nzTheme="fill"></span>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="!isRecognit">
+                            <span nz-icon class="icon-button" nzType="audio" nzTheme="outline"
+                                (click)="recogStart()"></span>
+                        </ng-container>
+                        <nz-divider nzType="vertical"></nz-divider>
+                        <span nz-icon class="icon-button" nzType="clear" nzTheme="outline" (click)="clear()"></span>
+                        <nz-divider nzType="vertical"></nz-divider>
+                       
+                    </div>
+                    
+                    <div>
+                        <span *ngIf="this.query === '' || this.query == null">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-send send-empty" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                            </svg>
+                        </span>
+                        <span (click)="sendQuery()" *ngIf="this.query !== '' && this.query != null">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-send-fill send-ready" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nz-drawer [nzClosable]="false" [nzVisible]="visible" nzPlacement="left" nzTitle="Chat History"
+    (nzOnClose)="closeChatHistory()">
+    <ng-container *nzDrawerContent>
+        <app-history-page [historyMessages]="historyMessages"
+            (messageLoadEvent)="loadHistoryMessage($event)"></app-history-page>
+    </ng-container>
+</nz-drawer>
