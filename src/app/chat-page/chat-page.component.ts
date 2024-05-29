@@ -43,7 +43,6 @@ export class ChatPageComponent {
 
   inputAreaFocus() {
     console.log('1')
-    this.recogStop();
     this.renderer.setStyle(this.inputArea.nativeElement, 'background-color', 'white');
     this.renderer.setStyle(this.inputArea.nativeElement, 'box-shadow', '0 1px 4px #00000014');
     this.renderer.setStyle(this.inputArea.nativeElement, 'border-color', '#c4c4c4');
@@ -60,7 +59,6 @@ export class ChatPageComponent {
   languageModal: string = '1'
 
   sendQuery() {
-    this.recogStop()
     if (this.query.trim() !== '' && this.query.trim() !== null) {
       console.log('query start ')
       let queryContent = this.query
@@ -167,7 +165,7 @@ export class ChatPageComponent {
             this.final_transcript += event.results[i][0].transcript;
             this.query = this.final_transcript
           } else {
-            this.interim_transcript = event.results[i][0].transcript;
+            this.interim_transcript += event.results[i][0].transcript;
             this.query = this.interim_transcript
           }
         }
