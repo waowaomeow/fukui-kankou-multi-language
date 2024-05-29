@@ -18,7 +18,11 @@
                     <label nz-radio-button nzValue="en-US">English</label>
                     <label nz-radio-button nzValue="cmn-Hant-TW">中国台湾</label>
                     <label nz-radio-button nzValue="ja-JP">日本語</label>
-                  </nz-radio-group>
+                </nz-radio-group>
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Modal" [(ngModel)]="languageModal">
+                    <nz-option nzLabel="GPT4-Turbo" nzValue="1"></nz-option>
+                    <nz-option nzLabel="GPT35-Turbo" nzValue="2"></nz-option>
+                </nz-select>
             </div>
             <div class="input-area" #inputarea>
                 

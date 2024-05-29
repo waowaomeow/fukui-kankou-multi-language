@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ChatContentComponent } from '../chat-content/chat-content.component';
-import { ChatServiceService } from '../service/chat-service.service';
+import { ChatServiceService, LanguageModal } from '../service/chat-service.service';
 import { ChatResponse, Message, ViewMessage } from '../interface/chat-interface';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
@@ -13,10 +13,11 @@ import { HistoryPageComponent } from '../history-page/history-page.component';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 @Component({
   selector: 'app-chat-page',
   standalone: true,
-  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule,NzRadioModule],
+  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule],
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.css'
 })
@@ -24,10 +25,10 @@ export class ChatPageComponent {
 
   @ViewChild('inputarea') inputArea!: ElementRef
   @ViewChild(ChatContentComponent) private chatContent!: ChatContentComponent
-  @Input() query: string=''
+  @Input() query: string = ''
 
-  
-  constructor(private renderer: Renderer2, private chatService: ChatServiceService, private errorMessage: NzMessageService,private cdr: ChangeDetectorRef) { }
+
+  constructor(private renderer: Renderer2, private chatService: ChatServiceService, private errorMessage: NzMessageService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
   }
@@ -42,6 +43,7 @@ export class ChatPageComponent {
 
   inputAreaFocus() {
     console.log('1')
+    this.recogStop();
     this.renderer.setStyle(this.inputArea.nativeElement, 'background-color', 'white');
     this.renderer.setStyle(this.inputArea.nativeElement, 'box-shadow', '0 1px 4px #00000014');
     this.renderer.setStyle(this.inputArea.nativeElement, 'border-color', '#c4c4c4');
@@ -55,14 +57,25 @@ export class ChatPageComponent {
     this.renderer.setStyle(this.inputArea.nativeElement, 'border-style', 'none');
   }
 
+  languageModal: string = '1'
+
   sendQuery() {
+    this.recogStop()
     if (this.query.trim() !== '' && this.query.trim() !== null) {
       console.log('query start ')
       let queryContent = this.query
       this.query = ''
       this.messages.push({ content: queryContent, role: 'user', sort: this.sort++ })
       this.chatContent.isloading = true
-      this.chatService.sendQuery(this.messages).subscribe({
+      let modalType = LanguageModal.GPT4Turbo
+      console.log('11111')
+      console.log(this.languageModal)
+      if (this.languageModal == '1') {
+        modalType = LanguageModal.GPT4Turbo
+      } else if (this.languageModal == '2') {
+        modalType = LanguageModal.GPT35Turbo
+      }
+      this.chatService.sendQuery(this.messages, modalType).subscribe({
         next: (res) => {
           let data = res as ChatResponse
           this.chatContent.isloading = false
@@ -122,13 +135,12 @@ export class ChatPageComponent {
     this.historyMessages.splice(index, 1)
   }
 
-  recognition = new ((window as any).webkitSpeechRecognition )()
+  recognition = new ((window as any).webkitSpeechRecognition)()
   isRecognit = false
   langSetting = 'zh-CN'
 
-  langSetChange(){
+  langSetChange() {
     this.recognition.stop();
-    this.recogStart()
   }
 
   final_transcript = ''
@@ -155,7 +167,7 @@ export class ChatPageComponent {
             this.final_transcript += event.results[i][0].transcript;
             this.query = this.final_transcript
           } else {
-            this.interim_transcript += event.results[i][0].transcript;
+            this.interim_transcript = event.results[i][0].transcript;
             this.query = this.interim_transcript
           }
         }
@@ -171,7 +183,10 @@ export class ChatPageComponent {
       this.recognition.onend = () => {
         // 你可以在这里重新启动识别器或进行其他操作
         console.log('Speech recognition service disconnected');
-        this.recogStop()
+
+        this.final_transcript = ''
+        this.interim_transcript = ''
+        this.isRecognit = false
       };
     } else {
       console.error('此浏览器不支持 Web Speech API');
@@ -179,7 +194,7 @@ export class ChatPageComponent {
     }
   }
 
-  recogStop(){
+  recogStop() {
     this.recognition.stop()
     this.final_transcript = ''
     this.interim_transcript = ''
