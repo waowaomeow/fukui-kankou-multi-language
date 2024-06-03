@@ -57,6 +57,7 @@ export class ChatPageComponent {
   }
 
   languageModal: string = '1'
+  currentAssisText:string = ''
 
   sendQuery() {
     if (this.query.trim() !== '' && this.query.trim() !== null) {
@@ -78,6 +79,8 @@ export class ChatPageComponent {
           let data = res as ChatResponse
           this.chatContent.isloading = false
           this.messages.push({ content: data.choices[0].message.content, role: data.choices[0].message.role, sort: this.sort++ })
+          this.currentAssisText = data.choices[0].message.content
+          this.speechStart()
         },
         error: err => {
           this.chatContent.isloading = false
@@ -134,8 +137,16 @@ export class ChatPageComponent {
   }
 
   recognition = new ((window as any).webkitSpeechRecognition)()
+  speechSynth = window.speechSynthesis
   isRecognit = false
   langSetting = 'zh-CN'
+
+  speechStart(){
+    if('speechSynthesis' in window){
+      const utterance = new SpeechSynthesisUtterance(this.currentAssisText);
+      this.speechSynth.speak(utterance);
+    }
+  }
 
   langSetChange() {
     this.recognition.stop();
