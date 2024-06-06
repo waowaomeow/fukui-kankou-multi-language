@@ -60,18 +60,20 @@ export class ChatPageComponent {
 
   sendQuery() {
     if (this.query.trim() !== '' && this.query.trim() !== null) {
-      console.log('query start ')
+      console.log('query start')
       let queryContent = this.query
       this.query = ''
       this.messages.push({ content: queryContent, role: 'user', sort: this.sort++ })
       this.chatContent.isloading = true
-      let modalType = LanguageModal.GPT4Turbo
+      let modalType = LanguageModal.GPT4_Turbo
       console.log('11111')
       console.log(this.languageModal)
       if (this.languageModal == '1') {
-        modalType = LanguageModal.GPT4Turbo
+        modalType = LanguageModal.GPT4_Turbo
       } else if (this.languageModal == '2') {
-        modalType = LanguageModal.GPT35Turbo
+        modalType = LanguageModal.GPT35_Turbo
+      }else if (this.languageModal == '3') {
+        modalType = LanguageModal. GPT4_32k
       }
       this.chatService.sendQuery(this.messages, modalType).subscribe({
         next: (res) => {

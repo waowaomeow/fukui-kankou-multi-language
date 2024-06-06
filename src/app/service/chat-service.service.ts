@@ -6,8 +6,10 @@ import { Token } from '@angular/compiler';
 import { Message, ChatEvent, ChatResponse, ViewMessage } from '../interface/chat-interface';
 
 export enum LanguageModal{
-  GPT4Turbo = 'GPT-4Turbo',
-  GPT35Turbo = 'gpt-35-turbo'
+  GPT4_Turbo = 'GPT-4Turbo',
+  GPT4_32k = 'gpt-4-32k',
+  GPT35_Turbo = 'gpt-35-turbo'
+  
 }
 
 const token = "ac0eb75113cb4cf3843bce89ee94f2d6"
