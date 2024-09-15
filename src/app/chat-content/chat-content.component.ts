@@ -23,7 +23,6 @@ export class ChatContentComponent implements AfterViewChecked{
   }
 
   ngAfterViewChecked() {
-    console.log('after out')
     this.addContentAndScroll()
   }
 

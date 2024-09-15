@@ -1,5 +1,10 @@
 import os, requests
 from openai import AzureOpenAI
+import sys
+import json  
+
+# 重新加载 sys.stdout  设置控制台编码为 UTF-8  
+sys.stdout.reconfigure(encoding='utf-8')  
 
 client = AzureOpenAI(
     azure_endpoint="https://tourism-gpt-4o.openai.azure.com/",
@@ -23,13 +28,6 @@ search_index_name = "txt2024-0316-0601-usermodel"
 # Add your Azure AI Search index name here
 
 
-message_text = [
-    {
-        "role": "user",
-        "content": "What are the differences between Azure Machine Learning and Azure AI services?",
-    }
-]
-
 # completion = openai.chat.completions.create(
 #     messages=message_text,
 #     model=deployment_id,
@@ -42,6 +40,13 @@ message_text = [
 #     stream=True
 
 # )
+message_string = sys.argv[1]
+# model_string = sys.argv[2]
+# print(model_string)
+# 替换单引号为双引号  
+message_string = message_string.replace("'", '"')  
+print(message_string)
+message_text = json.loads(message_string)
 
 response = client.chat.completions.create(
     model="gpt-4o",  # model = deployment_name".
@@ -91,5 +96,31 @@ response = client.chat.completions.create(
         ]
     },
 )
-
 print(response)
+# 将 ChatCompletion 响应转换为字典  
+response_dict = {  
+    "id": response.id,  
+    "choices": [{  
+            "message": {
+                "content":choice.message.content,
+                "context":choice.message.context
+            },  
+        } for choice in response.choices],  
+    "created": response.created,  
+    "model": response.model,  
+    "object": response.object,  
+    "service_tier": response.service_tier,  
+    "system_fingerprint": response.system_fingerprint,  
+    "usage": {  
+        "completion_tokens": response.usage.completion_tokens,  
+        "prompt_tokens": response.usage.prompt_tokens,  
+        "total_tokens": response.usage.total_tokens,  
+    },
+}  
+
+# 将响应转换为 JSON 格式  
+response_json = json.dumps(response_dict, ensure_ascii=False)  
+
+print('-------------------------------------')
+# 输出 JSON 格式的响应  
+print(response_json)  
