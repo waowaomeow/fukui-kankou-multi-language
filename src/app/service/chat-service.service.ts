@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Token } from '@angular/compiler';
-import { Message, ChatEvent, ChatResponse, ViewMessage } from '../interface/chat-interface';
+import { Message, ChatEvent, ChatResponse, ViewMessage, ChatCompletion } from '../interface/chat-interface';
 export enum LanguageModal{
   GPT4_Turbo = 'GPT-4Turbo',
   GPT4_32k = 'gpt-4-32k',
@@ -28,7 +28,7 @@ export class ChatServiceService {
 
   constructor(private http: HttpClient) { }
   
-  sendQuery(messages: Array<ViewMessage>,modalType:LanguageModal){
+  sendQuery(messages: Array<ViewMessage>,modalType:LanguageModal,roleInfomation?:string){
     let headers = new Headers();
     headers.append('api-key', token)
     headers.append('Content-Type', 'application/json')
@@ -38,9 +38,8 @@ export class ChatServiceService {
     for(let message of messages){
       sendMessages.push({role:message.role,content:message.content})
     }
-    let jsonbody:ChatEvent = new ChatEvent(sendMessages)
-    return this.http.post(url,jsonbody,{headers:{"api-key":token,"Content-Type":"application/json"}})
-
+    let jsonbody:ChatEvent = new ChatEvent(sendMessages,roleInfomation)
+    return this.http.post<ChatCompletion>(url,jsonbody)
   }
 
 }

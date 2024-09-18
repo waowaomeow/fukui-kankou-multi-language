@@ -24,8 +24,14 @@ export interface ChatResponse{
 }
 export class ChatEvent{
   constructor(
-    public messages:Array<Message>
+    public messages:Array<Message>,
+    public role_information?:string
   ){
 
   }
+}
+
+export interface ChatCompletion{
+  id:string,
+  choices:Array<{message:{content:string,context:string,role:string}}>,
 }
