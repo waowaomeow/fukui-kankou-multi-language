@@ -13,7 +13,7 @@ def run_script():
     print(messages)
     # 调用 Python 脚本  
     result = subprocess.run(['python', 'src/app/service/openai-chat.py',str(messages),str(role_information)], capture_output=True, text=True,encoding='utf-8')  
-    return jsonify({'output': result.stdout, 'error': result.stderr})  
+    return jsonify({'response': result.stdout, 'error': result.stderr})  
 
 @app.route('/test', methods=['get'])  
 def test():  

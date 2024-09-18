@@ -31,7 +31,12 @@ export class ChatEvent{
   }
 }
 
-export interface ChatCompletion{
-  id:string,
-  choices:Array<{message:{content:string,context:string,role:string}}>,
+export interface ChatCompletion {
+  response: {
+    id: string,
+    choices: Array<{
+      message: { content: string, context: string, role: string },
+    }>
+  },
+  error: string
 }
