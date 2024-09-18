@@ -9,9 +9,10 @@ def run_script():
     # 这里可以添加任何需要的参数  
     data = request.json  
     messages = data.get('messages')
+    role_information = data.get('role_information')
     print(messages)
     # 调用 Python 脚本  
-    result = subprocess.run(['python', 'src/app/service/openai-chat.py',str(messages)], capture_output=True, text=True,encoding='utf-8')  
+    result = subprocess.run(['python', 'src/app/service/openai-chat.py',str(messages),str(role_information)], capture_output=True, text=True,encoding='utf-8')  
     return jsonify({'output': result.stdout, 'error': result.stderr})  
 
 @app.route('/test', methods=['get'])  

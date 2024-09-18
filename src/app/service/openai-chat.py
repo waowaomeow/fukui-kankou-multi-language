@@ -41,6 +41,7 @@ search_index_name = "txt2024-0316-0601-usermodel"
 
 # )
 message_string = sys.argv[1]
+role_information = sys.argv[2]
 # model_string = sys.argv[2]
 # print(model_string)
 # 替换单引号为双引号  

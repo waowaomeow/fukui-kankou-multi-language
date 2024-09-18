@@ -4,7 +4,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ChatContentComponent } from '../chat-content/chat-content.component';
 import { ChatServiceService, LanguageModal } from '../service/chat-service.service';
-import { ChatResponse, Message, ViewMessage } from '../interface/chat-interface';
+import { ChatCompletion, ChatResponse, Message, ViewMessage } from '../interface/chat-interface';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { CommonModule } from '@angular/common';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -14,6 +14,12 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+
+enum LanguageType{
+  GPT4_Turbo = '1',
+  GPT35_Turbo = '2',
+  GPT4_32k = '3'
+}
 @Component({
   selector: 'app-chat-page',
   standalone: true,
@@ -56,44 +62,46 @@ export class ChatPageComponent {
     this.renderer.setStyle(this.inputArea.nativeElement, 'border-style', 'none');
   }
 
-  languageModal: string = '1'
+  languageModal= LanguageType.GPT4_Turbo
   currentAssisText:string = ''
 
   sendQuery() {
-    if (this.query.trim() !== '' && this.query.trim() !== null) {
-      console.log('query start')
-      let queryContent = this.query
-      this.query = ''
-      this.messages.push({ content: queryContent, role: 'user', sort: this.sort++ })
-      this.chatContent.isloading = true
-      let modalType = LanguageModal.GPT4_Turbo
-      console.log('11111')
-      console.log(this.languageModal)
-      if (this.languageModal == '1') {
-        modalType = LanguageModal.GPT4_Turbo
-      } else if (this.languageModal == '2') {
-        modalType = LanguageModal.GPT35_Turbo
-      }else if (this.languageModal == '3') {
-        modalType = LanguageModal. GPT4_32k
+    if (this.query.trim()) {
+      console.log('query start');
+      let queryContent = this.query;
+      this.query = '';
+      this.messages.push({content: queryContent,role: 'user',sort: this.sort++});
+      this.chatContent.isloading = true;
+      let modalType = LanguageModal.GPT4_Turbo;
+      console.log(this.languageModal);
+      if (this.languageModal == LanguageType.GPT4_Turbo) {
+        modalType = LanguageModal.GPT4_Turbo;
+      } else if (this.languageModal == LanguageType.GPT35_Turbo) {
+        modalType = LanguageModal.GPT35_Turbo;
+      } else if (this.languageModal == LanguageType.GPT4_32k) {
+        modalType = LanguageModal.GPT4_32k;
       }
       this.chatService.sendQuery(this.messages, modalType).subscribe({
-        next: (res) => {
-          let data = res as ChatResponse
-          this.chatContent.isloading = false
-          this.messages.push({ content: data.choices[0].message.content, role: data.choices[0].message.role, sort: this.sort++ })
-          this.currentAssisText = data.choices[0].message.content
-          this.speechStart()
+        next: (res: ChatCompletion) => {
+          let data = res;
+          this.chatContent.isloading = false;
+          this.messages.push({
+            content: data.choices[0].message.content,
+            role: data.choices[0].message.role,
+            sort: this.sort++,
+          });
+          this.currentAssisText = data.choices[0].message.content;
+          this.speechStart();
         },
-        error: err => {
-          this.chatContent.isloading = false
-          this.errorMessage.error(err.error.error.message, { nzDuration: 5000 })
-          console.log(err)
-        }
-      }
-
-      )
+        error: (err) => {
+          this.chatContent.isloading = false;
+          this.errorMessage.error(err.error.error.message, {
+            nzDuration: 5000,
+          });
+          console.log(err);
+        },
+      });
     }
-
   }
 
   handleKeyDown(event: KeyboardEvent) {
