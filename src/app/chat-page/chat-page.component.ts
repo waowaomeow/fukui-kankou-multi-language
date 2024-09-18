@@ -83,7 +83,7 @@ export class ChatPageComponent {
       }
       this.chatService.sendQuery(this.messages, modalType).subscribe({
         next: (res: ChatCompletion) => {
-          let data = res;
+          let data = res.response;
           this.chatContent.isloading = false;
           this.messages.push({
             content: data.choices[0].message.content,
