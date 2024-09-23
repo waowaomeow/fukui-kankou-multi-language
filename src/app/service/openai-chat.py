@@ -46,21 +46,11 @@ role_information = sys.argv[2]
 # print(model_string)
 # 替换单引号为双引号  
 message_string = message_string.replace("'", '"')  
-print(message_string)
 message_text = json.loads(message_string)
 
 response = client.chat.completions.create(
     model="gpt-4o",  # model = deployment_name".
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Does Azure OpenAI support customer managed keys?"},
-        {
-            "role": "assistant",
-            "content": "Yes, customer managed keys are supported by Azure OpenAI.",
-        },
-        {"role": "user", "content": "Do other Azure AI services support this too?"},
-        {"role": "user", "content": "我是来自中国的游客请问有什么福井县推荐的观光地?"},
-    ],
+    messages=message_text,
     extra_body={
         "data_sources": [  # camelCase is intentional, as this is the format the API expects
             {
@@ -97,7 +87,6 @@ response = client.chat.completions.create(
         ]
     },
 )
-print(response)
 # 将 ChatCompletion 响应转换为字典  
 response_dict = {  
     "id": response.id,  
@@ -122,6 +111,5 @@ response_dict = {
 # 将响应转换为 JSON 格式  
 response_json = json.dumps(response_dict, ensure_ascii=False)  
 
-print('-------------------------------------')
 # 输出 JSON 格式的响应  
 print(response_json)  

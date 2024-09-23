@@ -82,12 +82,14 @@ export class ChatPageComponent {
         modalType = LanguageModal.GPT4_32k;
       }
       this.chatService.sendQuery(this.messages, modalType).subscribe({
-        next: (res: ChatCompletion) => {
-          let data = res.response;
+        next: (res : ChatCompletion) => {
+          debugger
+          let data = JSON.parse(res.response);
+
           this.chatContent.isloading = false;
           this.messages.push({
             content: data.choices[0].message.content,
-            role: data.choices[0].message.role,
+            role: 'assistant',
             sort: this.sort++,
           });
           this.currentAssisText = data.choices[0].message.content;
