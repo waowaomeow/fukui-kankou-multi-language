@@ -11,6 +11,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { HttpClientModule } from '@angular/common/http';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
   ],
   imports: [
     BrowserModule,
-    MarkdownModule.forRoot(),RouterOutlet,ChatPageComponent,CommonModule,FormsModule,NzIconModule,NzDividerModule,HttpClientModule,NzModalModule
+    MarkdownModule.forRoot(),RouterOutlet,ChatPageComponent,CommonModule,FormsModule,NzIconModule,NzDividerModule,HttpClientModule,NzModalModule,BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
