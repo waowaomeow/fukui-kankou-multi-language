@@ -1,11 +1,12 @@
-import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { ViewMessage } from '../interface/chat-interface';
 import { CommonModule } from '@angular/common';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { MarkdownModule } from 'ngx-markdown';
 @Component({
   selector: 'app-chat-content',
   standalone: true,
-  imports: [CommonModule,NzSpinModule],
+  imports: [CommonModule,NzSpinModule,MarkdownModule],
   templateUrl: './chat-content.component.html',
   styleUrl: './chat-content.component.css'
 })
@@ -23,6 +24,9 @@ export class ChatContentComponent implements AfterViewChecked{
   }
 
   ngAfterViewChecked() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.addContentAndScroll()
   }
 

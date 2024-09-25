@@ -26,10 +26,18 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-
+## Python Server Version
 Flask                     2.2.2
 Flask-Cors                5.0.0
 
-pip install flask==2.2.2
-pip flask-cors==5.0.0
+## 运行步骤
+### 1
+项目路径下 run `npm install`
+项目路径下 run `ng add ngx-markdown` 
+项目路径下 run `pip install flask==2.2.2`
+项目路径下 run `pip install flask-cors==5.0.0`
+项目路径下 run `pip install openai==1.35.3` (安装过可以跳过这步)
+### 2
+打开app.py文件 右上角点击运行按钮
+项目路径下 run `ng serve` 
 

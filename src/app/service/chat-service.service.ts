@@ -29,6 +29,7 @@ export class ChatServiceService {
   constructor(private http: HttpClient) { }
   
   sendQuery(messages: Array<ViewMessage>,modalType:LanguageModal,roleInfomation?:string){
+    roleInfomation = ''
     let headers = new Headers();
     headers.append('api-key', token)
     headers.append('Content-Type', 'application/json')
@@ -38,7 +39,7 @@ export class ChatServiceService {
     for(let message of messages){
       sendMessages.push({role:message.role,content:message.content})
     }
-    let jsonbody:ChatEvent = new ChatEvent(sendMessages,roleInfomation)
+    let jsonbody:ChatEvent = new ChatEvent(sendMessages)
     return this.http.post<ChatCompletion>(url,jsonbody)
   }
 

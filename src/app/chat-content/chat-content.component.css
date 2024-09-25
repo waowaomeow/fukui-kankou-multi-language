@@ -64,3 +64,34 @@
     background: #555;
     /* 滑块悬停时的背景颜色 */
 }
+
+.markdown-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+  }
+  
+  .markdown-container h2 {
+    color: #333;
+  }
+  
+  .markdown-container .description {
+    margin-bottom: 10px;
+  }
+  
+  .markdown-container .address {
+    font-style: italic;
+    color: #666;
+  }
+  
+  .markdown-container .transportation {
+    margin-top: 5px;
+    color: #888;
+  }
+  
+  .markdown-container .review {
+    margin-top: 10px;
+    color: #555;
+  }
