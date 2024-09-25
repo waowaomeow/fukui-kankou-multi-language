@@ -25,12 +25,16 @@
                     <nz-option nzLabel="GPT-4-32k" nzValue="3"></nz-option>
                     <nz-option nzLabel="GPT35-Turbo" nzValue="2"></nz-option>
                 </nz-select>
-                <button nz-button [nzType]="'primary'" (click)="role_information()"><span>Show Modal</span></button>
+                <button nz-button [nzType]="'primary'" (click)="role_information()"><span>role_information</span></button>
                 <nz-modal [(nzVisible)]="isVisible" nzTitle="role_information" (nzOnCancel)="handleCancel()"(nzOnOk)="handleOk()">
                     <ng-container *nzModalContent>
-                        <p>Content one</p>
-                        <p>Content two</p>
-                        <p>Content three</p>
+                        <textarea rows="4" nz-input [(ngModel)]="inputValue"></textarea> 
+                    </ng-container>
+                </nz-modal>
+                <button nz-button [nzType]="'primary'" (click)="speechStop()"><span>speechStop</span></button>
+                <nz-modal [(nzVisible)]="isVisible" nzTitle="role_information" (nzOnCancel)="handleCancel()"(nzOnOk)="handleOk()">
+                    <ng-container *nzModalContent>
+                        <textarea rows="4" nz-input [(ngModel)]="inputValue"></textarea> 
                     </ng-container>
                 </nz-modal>
             </div>

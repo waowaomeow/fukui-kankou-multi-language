@@ -16,7 +16,7 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
-enum LanguageType{
+enum LanguageType {
   GPT4_Turbo = '1',
   GPT35_Turbo = '2',
   GPT4_32k = '3'
@@ -24,7 +24,7 @@ enum LanguageType{
 @Component({
   selector: 'app-chat-page',
   standalone: true,
-  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule,NzModalModule],
+  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule, NzModalModule],
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.css'
 })
@@ -42,13 +42,13 @@ export class ChatPageComponent {
 
   messages = new Array<ViewMessage>
   historyMessages = new Array<Array<ViewMessage>>
-
+  inputValue: string = "【役割】あなたは、新幹線開業に向けて福井県の観光を案内するAIチャットボットです。\n\n【目標】ユーザーの福井県の観光に関する質問に対して、あなたは知識からコメントの満足度の理由（Positive Comments)、観光スポットの説明を参照して、回答を生成することにより、ユーザーにパーソナライズした観光地をお薦めすることが目標です。\n\n【制約条件】\n・第1の知識（満足度）には、111の福井県の観光エリアについて、観光地名（エリア）とその説明、観光客が満足した理由（Positive Comments）、どちらでもない理由（Neutral Comments）、不満の理由（Negative Comments）が記載されているが、不満の理由は回答に用いないこと。\n・観光地（エリア）に対して満足した理由（Positive Comments）が多いほど人気の観光地である。\n・観光地（エリア）にない観光地は、例えば、恐竜博物館の情報は、スーベニアショップのコメントにある。\n・知識のテキストファイル名には観光地名（エリア）が付いている。以下の例は、観光地「芝政ワールド」のファイル名を示す。\n　「output_for_芝政ワールド エリア.txt」\n　観光地名のタイトルがない場合は、ファイル名を見ること。\n\n・第2の知識（観光スポット）には、1034の福井県の観光スポットについて、そのエリア、観光スポットの説明、緯度経度、住所、アクセス、営業時間、定休日、料金の情報が記載されています。\n\n・回答は簡潔に表現し、箇条書きで出力すること。 \n\n・知らないこと、知識にないことは知らないと回答すること。\n\n【フロー】\n１）ユーザーの質問に関連した観光地や観光スポットを知識を参照して、その評判を要約する。ユーザーから質問がなければ、「福井県の観光地について何でも質問して下さい」と説明する。\n２）観光地の要約と福井県の観光に関する知識を総動員して、ユーザーの質問に回答する";
   // 控制history内容可见
   visible = false;
   isVisible = false;
   sort = 0
 
-  role_information(){
+  role_information() {
     this.isVisible = true;
   }
 
@@ -77,17 +77,18 @@ export class ChatPageComponent {
     this.renderer.setStyle(this.inputArea.nativeElement, 'border-style', 'none');
   }
 
-  languageModal= LanguageType.GPT4_Turbo
-  currentAssisText:string = ''
+  languageModal = LanguageType.GPT4_Turbo
+  currentAssisText: string = ''
 
   sendQuery() {
     if (this.query.trim()) {
       console.log('query start');
       let queryContent = this.query;
       this.query = '';
-      this.messages.push({content: queryContent,role: 'user',sort: this.sort++});
+      this.messages.push({ content: queryContent, role: 'user', sort: this.sort++ });
       this.chatContent.isloading = true;
       let modalType = LanguageModal.GPT4_Turbo;
+      this.recogStop();
       console.log(this.languageModal);
       if (this.languageModal == LanguageType.GPT4_Turbo) {
         modalType = LanguageModal.GPT4_Turbo;
@@ -96,9 +97,9 @@ export class ChatPageComponent {
       } else if (this.languageModal == LanguageType.GPT4_32k) {
         modalType = LanguageModal.GPT4_32k;
       }
-      this.chatService.sendQuery(this.messages, modalType).subscribe({
-        next: (res : ChatCompletion) => {
-          
+      this.chatService.sendQuery(this.messages, modalType, this.inputValue).subscribe({
+        next: (res: ChatCompletion) => {
+
           let data = JSON.parse(res.response);
 
           this.chatContent.isloading = false;
@@ -139,6 +140,7 @@ export class ChatPageComponent {
   }
 
   clear() {
+
     this.query = ''
     if (this.messages.length != 0) {
       this.historyMessages.push(this.messages)
@@ -168,13 +170,15 @@ export class ChatPageComponent {
   isRecognit = false
   langSetting = 'zh-CN'
 
-  speechStart(){
-    if('speechSynthesis' in window){
+  speechStart() {
+    if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(this.currentAssisText);
       this.speechSynth.speak(utterance);
     }
   }
-
+  speechStop() {
+    this.speechSynth.cancel();
+  }
   langSetChange() {
     this.recognition.stop();
   }
