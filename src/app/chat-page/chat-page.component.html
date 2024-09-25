@@ -25,9 +25,17 @@
                     <nz-option nzLabel="GPT-4-32k" nzValue="3"></nz-option>
                     <nz-option nzLabel="GPT35-Turbo" nzValue="2"></nz-option>
                 </nz-select>
+                <button nz-button [nzType]="'primary'" (click)="role_information()"><span>Show Modal</span></button>
+                <nz-modal [(nzVisible)]="isVisible" nzTitle="role_information" (nzOnCancel)="handleCancel()"(nzOnOk)="handleOk()">
+                    <ng-container *nzModalContent>
+                        <p>Content one</p>
+                        <p>Content two</p>
+                        <p>Content three</p>
+                    </ng-container>
+                </nz-modal>
             </div>
             <div class="input-area" #inputarea>
-                
+
                 <textarea nzBorderless nz-input (keydown)="handleKeyDown($event)" [nzAutosize]="true"
                     placeholder="输入消息..." (blur)="inputAreaBlur()" (focus)="inputAreaFocus()"
                     class="ant-input custom-scrollbar" [(ngModel)]="query"></textarea>
@@ -45,9 +53,9 @@
                         <nz-divider nzType="vertical"></nz-divider>
                         <span nz-icon class="icon-button" nzType="clear" nzTheme="outline" (click)="clear()"></span>
                         <nz-divider nzType="vertical"></nz-divider>
-                       
+
                     </div>
-                    
+
                     <div>
                         <span *ngIf="this.query === '' || this.query == null">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"

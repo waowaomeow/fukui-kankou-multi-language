@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { HttpClientModule } from '@angular/common/http';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    MarkdownModule.forRoot(),RouterOutlet,ChatPageComponent,CommonModule,FormsModule,NzIconModule,NzDividerModule,HttpClientModule
+    MarkdownModule.forRoot(),RouterOutlet,ChatPageComponent,CommonModule,FormsModule,NzIconModule,NzDividerModule,HttpClientModule,NzModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

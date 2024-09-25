@@ -14,6 +14,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 enum LanguageType{
   GPT4_Turbo = '1',
@@ -23,7 +24,7 @@ enum LanguageType{
 @Component({
   selector: 'app-chat-page',
   standalone: true,
-  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule],
+  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule,NzModalModule],
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.css'
 })
@@ -44,8 +45,22 @@ export class ChatPageComponent {
 
   // 控制history内容可见
   visible = false;
-
+  isVisible = false;
   sort = 0
+
+  role_information(){
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
 
   inputAreaFocus() {
     console.log('1')
@@ -83,7 +98,7 @@ export class ChatPageComponent {
       }
       this.chatService.sendQuery(this.messages, modalType).subscribe({
         next: (res : ChatCompletion) => {
-          debugger
+          
           let data = JSON.parse(res.response);
 
           this.chatContent.isloading = false;
