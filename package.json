@@ -20,6 +20,7 @@
     "@angular/router": "^17.3.0",
     "bootstrap-icons": "^1.11.3",
     "ng-zorro-antd": "^17.3.0",
+    "ngx-markdown": "^17.2.1",
     "openai": "^4.52.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
