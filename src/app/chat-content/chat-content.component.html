@@ -1,14 +1,14 @@
 <div class="chat-content-container">
     <div class="chat-messages" #chatMessageContainer>
-        <ng-container *ngFor="let message of messages">
-            <div class="message" *ngIf="message.role=='user'" [class]="message.role=='user'?'sent':'received'" [innerHTML]="convertNewlinesToHtml(message.content)">
-            </div>
-            <div class="message" *ngIf="message.role !=='user'" [class]="message.role=='user'?'sent':'received'">
-                <markdown [data]="message.content"></markdown>
-            </div>
-        </ng-container>
-        <div class="message received load" *ngIf="isloading">
-            <nz-spin nzSimple [nzSpinning]="isloading"></nz-spin>
+      <ng-container *ngFor="let message of messages">
+        <div class="message" *ngIf="message.role == 'user'" [class]="message.role=='user' ? 'sent' : 'received'" [innerHTML]="convertNewlinesToHtml(message.content)"></div>
+        <div class="message" *ngIf="message.role !== 'user'" [class]="message.role=='user' ? 'sent' : 'received'">
+          <markdown [data]="message.content"></markdown>
         </div>
+      </ng-container>
+      <div class="message received load" *ngIf="isloading">
+        <nz-spin nzSimple [nzSpinning]="isloading"></nz-spin>
+      </div>
     </div>
-</div>
+  </div>
+  

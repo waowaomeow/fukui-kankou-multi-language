@@ -10,7 +10,8 @@
     flex-direction: column;
     flex: 1;
     height: 70vh;
-    overflow-y: auto;
+    max-height: 8000px; /* 根据需要设置最大高度 */
+    overflow-y: auto; /* 允许垂直滚动 */
 }
 
 .message {

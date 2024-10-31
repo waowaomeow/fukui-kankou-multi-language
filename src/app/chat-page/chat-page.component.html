@@ -5,7 +5,7 @@
         </div>
         <ng-container *ngIf="this.messages.length==0">
             <div>
-                <h1>What can i help you</h1>
+                <h1>Fukui-Kankou-Multi-Language-System</h1>
             </div>
         </ng-container>
 
@@ -13,6 +13,8 @@
     <div class="bottom-content">
         <div class="input-content">
             <div class="setting-area">
+                <span>音声合成</span>
+                <nz-switch [(ngModel)]="switchValue" (ngModelChange)="toggleSpeechSynthesis()" style="margin-right: 16px;margin-left: 8px;">speech</nz-switch>
                 <nz-radio-group [(ngModel)]="langSetting" (ngModelChange)="langSetChange()">
                     <label nz-radio-button nzValue="zh-CN">中文</label>
                     <label nz-radio-button nzValue="en-US">English</label>
@@ -22,26 +24,24 @@
                 </nz-radio-group>
                 <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a Modal" [(ngModel)]="languageModal">
                     <nz-option nzLabel="GPT4-Turbo" nzValue="1"></nz-option>
-                    <nz-option nzLabel="GPT-4-32k" nzValue="3"></nz-option>
+                    <nz-option nzLabel="GPT4-32k" nzValue="3"></nz-option>
                     <nz-option nzLabel="GPT35-Turbo" nzValue="2"></nz-option>
+                    <nz-option nzLabel="GPT4-o" nzValue="4"></nz-option>
                 </nz-select>
-                <button nz-button [nzType]="'primary'" (click)="role_information()"><span>role_information</span></button>
+                <button nz-button [nzType]="'primary'" (click)="role_information()"><span>system prompt</span></button>
                 <nz-modal [(nzVisible)]="isVisible" nzTitle="role_information" (nzOnCancel)="handleCancel()"(nzOnOk)="handleOk()">
                     <ng-container *nzModalContent>
                         <textarea rows="4" nz-input [(ngModel)]="inputValue"></textarea> 
                     </ng-container>
                 </nz-modal>
-                <button nz-button [nzType]="'primary'" (click)="speechStop()"><span>speechStop</span></button>
-                <nz-modal [(nzVisible)]="isVisible" nzTitle="role_information" (nzOnCancel)="handleCancel()"(nzOnOk)="handleOk()">
-                    <ng-container *nzModalContent>
-                        <textarea rows="4" nz-input [(ngModel)]="inputValue"></textarea> 
-                    </ng-container>
-                </nz-modal>
+                
+
+
             </div>
             <div class="input-area" #inputarea>
 
                 <textarea nzBorderless nz-input (keydown)="handleKeyDown($event)" [nzAutosize]="true"
-                    placeholder="输入消息..." (blur)="inputAreaBlur()" (focus)="inputAreaFocus()"
+                    placeholder="message..." (blur)="inputAreaBlur()" (focus)="inputAreaFocus()"
                     class="ant-input custom-scrollbar" [(ngModel)]="query"></textarea>
                 <div class="input-button-area">
                     <div>
@@ -57,7 +57,6 @@
                         <nz-divider nzType="vertical"></nz-divider>
                         <span nz-icon class="icon-button" nzType="clear" nzTheme="outline" (click)="clear()"></span>
                         <nz-divider nzType="vertical"></nz-divider>
-
                     </div>
 
                     <div>

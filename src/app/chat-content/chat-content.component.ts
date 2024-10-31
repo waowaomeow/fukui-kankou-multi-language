@@ -3,31 +3,33 @@ import { ViewMessage } from '../interface/chat-interface';
 import { CommonModule } from '@angular/common';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { MarkdownModule } from 'ngx-markdown';
+
 @Component({
   selector: 'app-chat-content',
   standalone: true,
-  imports: [CommonModule,NzSpinModule,MarkdownModule],
+  imports: [CommonModule, NzSpinModule, MarkdownModule],
   templateUrl: './chat-content.component.html',
-  styleUrl: './chat-content.component.css'
+  styleUrls: ['./chat-content.component.css']
 })
-export class ChatContentComponent implements AfterViewChecked{
+export class ChatContentComponent implements AfterViewChecked {
+  @Input() messages!: Array<ViewMessage>;
+  @ViewChild('chatMessageContainer') private chatMessageContainer!: ElementRef;
+  isloading = false;
 
-  @Input() messages!:Array<ViewMessage>
-  @ViewChild('chatMessageContainer') private chatMessageContainer!:ElementRef
-  isloading = false
-
-  show(){
-    console.log(this.messages)
+  show() {
+    console.log(this.messages);
   }
+
   convertNewlinesToHtml(text: string): string {
-    return text.replace(/\n/g, '<br>')
+    return text.replace(/\n/g, '<br>');
   }
 
-  ngAfterViewChecked() {
-  }
+  ngAfterViewChecked() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.addContentAndScroll()
+    if (changes['messages'] && !changes['messages'].firstChange) {
+      this.addContentAndScroll();
+    }
   }
 
   messageContentscrollToBottom(): void {
@@ -35,12 +37,10 @@ export class ChatContentComponent implements AfterViewChecked{
       top: this.chatMessageContainer.nativeElement.scrollHeight,
       left: 0,
       behavior: 'smooth'
-    })
+    });
   }
 
   addContentAndScroll(): void {
-    // 添加内容的逻辑...
-    // 确保内容已经渲染
-    setTimeout(() => this.messageContentscrollToBottom(), 0)
+    setTimeout(() => this.messageContentscrollToBottom(), 0);
   }
 }

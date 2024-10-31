@@ -90,27 +90,27 @@ response = client.chat.completions.create(
 )
 # 将 ChatCompletion 响应转换为字典  
 response_dict = {  
-    "id": response.id,  
-    "choices": [{  
+    "id": getattr(response, 'id', None),  # 使用 getattr 防止属性不存在
+    "choices": [{
             "message": {
-                "content":choice.message.content,
-                "context":choice.message.context
-            },  
-        } for choice in response.choices],  
-    "created": response.created,  
-    "model": response.model,  
-    "object": response.object,  
-    "service_tier": response.service_tier,  
-    "system_fingerprint": response.system_fingerprint,  
+                "content": getattr(choice.message, 'content', ''),
+                "context": getattr(choice.message, 'context', ''),
+            },
+        } for choice in getattr(response, 'choices', [])],  # 确保 choices 存在
+    "created": getattr(response, 'created', None),  
+    "model": getattr(response, 'model', None),  
+    "object": getattr(response, 'object', None),  
+    "service_tier": getattr(response, 'service_tier', None),  
+    "system_fingerprint": getattr(response, 'system_fingerprint', None),  
     "usage": {  
-        "completion_tokens": response.usage.completion_tokens,  
-        "prompt_tokens": response.usage.prompt_tokens,  
-        "total_tokens": response.usage.total_tokens,  
-    },
+        "completion_tokens": getattr(response.usage, 'completion_tokens', 0),  
+        "prompt_tokens": getattr(response.usage, 'prompt_tokens', 0),  
+        "total_tokens": getattr(response.usage, 'total_tokens', 0),  
+    } if hasattr(response, 'usage') else {},  # 确保 usage 存在
 }  
 
 # 将响应转换为 JSON 格式  
-response_json = json.dumps(response_dict, ensure_ascii=False)  
+response_json = json.dumps(response_dict, ensure_ascii=False, default=str)  
 
 # 输出 JSON 格式的响应  
 print(response_json)  

@@ -15,8 +15,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 enum LanguageType {
+  GPT4_o='4',
   GPT4_Turbo = '1',
   GPT35_Turbo = '2',
   GPT4_32k = '3'
@@ -24,7 +26,7 @@ enum LanguageType {
 @Component({
   selector: 'app-chat-page',
   standalone: true,
-  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule, NzModalModule],
+  imports: [FormsModule, NzButtonModule, NzInputModule, ChatContentComponent, NzIconModule, CommonModule, NzDividerModule, NzDrawerModule, HistoryPageComponent, NzMessageModule, NzRadioModule, NzSelectModule, NzModalModule,NzSwitchModule],
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.css'
 })
@@ -47,6 +49,42 @@ export class ChatPageComponent {
   visible = false;
   isVisible = false;
   sort = 0
+  
+
+  // 语音合成开关的当前状态
+  switchValue = false;
+  
+  // 控制语音合成功能的启动和停止
+  toggleSpeechSynthesis() {
+    if (this.switchValue) {
+      this.speechStart(); // 启动语音合成
+    } else {
+      this.speechStop();  // 停止语音合成
+    }
+  }
+
+  // 启动语音合成的方法
+speechStart() {
+  if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(this.currentAssisText);
+      utterance.lang = this.langSetting; // 动态设置语言
+      const voices = window.speechSynthesis.getVoices(); // 获取支持的语音列表
+      
+      // 根据语言设置选择合适的语音
+      const selectedVoice = voices.find(voice => voice.lang === this.langSetting);
+      
+      if (selectedVoice) {
+          utterance.voice = selectedVoice; // 设置语音
+      }
+      
+      window.speechSynthesis.speak(utterance);
+  }
+}
+
+  // 停止语音合成的方法
+  speechStop() {
+    window.speechSynthesis.cancel();
+  }
 
   role_information() {
     this.isVisible = true;
@@ -77,7 +115,7 @@ export class ChatPageComponent {
     this.renderer.setStyle(this.inputArea.nativeElement, 'border-style', 'none');
   }
 
-  languageModal = LanguageType.GPT4_Turbo
+  languageModal = LanguageType.GPT4_o
   currentAssisText: string = ''
 
   sendQuery() {
@@ -99,9 +137,7 @@ export class ChatPageComponent {
       }
       this.chatService.sendQuery(this.messages, modalType, this.inputValue).subscribe({
         next: (res: ChatCompletion) => {
-
           let data = JSON.parse(res.response);
-
           this.chatContent.isloading = false;
           this.messages.push({
             content: data.choices[0].message.content,
@@ -109,7 +145,11 @@ export class ChatPageComponent {
             sort: this.sort++,
           });
           this.currentAssisText = data.choices[0].message.content;
-          this.speechStart();
+  
+          // 仅在 switchValue 为 true 时启动语音合成
+          if (this.switchValue) {
+            this.speechStart();
+          }
         },
         error: (err) => {
           this.chatContent.isloading = false;
@@ -121,6 +161,7 @@ export class ChatPageComponent {
       });
     }
   }
+  
 
   handleKeyDown(event: KeyboardEvent) {
     // 如果按下的是回车键并且没有同时按下Alt键
@@ -170,15 +211,7 @@ export class ChatPageComponent {
   isRecognit = false
   langSetting = 'zh-CN'
 
-  speechStart() {
-    if ('speechSynthesis' in window) {
-      const utterance = new SpeechSynthesisUtterance(this.currentAssisText);
-      this.speechSynth.speak(utterance);
-    }
-  }
-  speechStop() {
-    this.speechSynth.cancel();
-  }
+  
   langSetChange() {
     this.recognition.stop();
   }
