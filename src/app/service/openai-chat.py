@@ -12,7 +12,6 @@ client = AzureOpenAI(
     api_version="2024-02-01",
 )
 
-
 api_type = "azure"
 api_version = "2024-02-15-preview"
 
@@ -20,30 +19,16 @@ deployment_id = "gpt-4o"  # Add your deployment ID here
 
 # openai.base_url = "https://tourism-gpt-4o.openai.azure.com/"
 # Azure AI Search setup
-search_endpoint = "https://tourism-ai-search.search.windows.net"
+search_endpoint = "https://tourismeastus.search.windows.net"
 # Add your Azure AI Search endpoint here
-search_key = "9WWopxIVxLbk5BLx8HUDNixQCiM6PuYuZL2FxRaRuaAzSeBGI1ji"
+search_key = "meodBNxaf5pcJ9sTQg3aV3K1wbEOl1PpFHDxMz4FdQAzSeDwdB8O"
 # Add your Azure AI Search admin key here
-search_index_name = "txt2024-0316-0601-usermodel"
+search_index_name = "vector-1730259365346"
 # Add your Azure AI Search index name here
+semantic_configuration = "vector-1730259365346-semantic-configuration"
 
-
-# completion = openai.chat.completions.create(
-#     messages=message_text,
-#     model=deployment_id,
-
-#     ],
-#     temperature=0,
-#     top_p=1,
-#     max_tokens=800,
-#     stop=None,
-#     stream=True
-
-# )
 message_string = sys.argv[1]
 role_information = sys.argv[2]
-# model_string = sys.argv[2]
-# print(model_string)
 # 替换单引号为双引号  
 message_string = message_string.replace("'", '"')  
 role_information = role_information.replace("'", '"')  
@@ -57,9 +42,9 @@ response = client.chat.completions.create(
             {
                 "type": "azure_search",
                 "parameters": {
-                    "endpoint": "https://tourism-ai-search.search.windows.net",
-                    "index_name": "txt2024-0316-0601-usermodel",
-                    "semantic_configuration": "txt2024-0316-0601-usermodel-semantic-configuration",
+                    "endpoint": search_endpoint,
+                    "index_name": search_index_name,
+                    "semantic_configuration": semantic_configuration,
                     "query_type": "vector_semantic_hybrid",
                     "fields_mapping": {
                         "content_fields_separator": "\n",
@@ -76,7 +61,7 @@ response = client.chat.completions.create(
                     "top_n_documents": 5,
                     "authentication": {
                         "type": "api_key",
-                        "key": "9WWopxIVxLbk5BLx8HUDNixQCiM6PuYuZL2FxRaRuaAzSeBGI1ji",
+                        "key": search_key,
                     },
                     "embedding_dependency": {
                         "type": "deployment_name",

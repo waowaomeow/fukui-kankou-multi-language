@@ -3,7 +3,7 @@
       <ng-container *ngFor="let message of messages">
         <div class="message" *ngIf="message.role == 'user'" [class]="message.role=='user' ? 'sent' : 'received'" [innerHTML]="convertNewlinesToHtml(message.content)"></div>
         <div class="message" *ngIf="message.role !== 'user'" [class]="message.role=='user' ? 'sent' : 'received'">
-          <markdown [data]="message.content"></markdown>
+          <markdown [data]="message.content" class="custom-image"></markdown>
         </div>
       </ng-container>
       <div class="message received load" *ngIf="isloading">

@@ -1,98 +1,112 @@
 .chat-content-container {
-    width: 100%;
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .chat-messages {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    height: 70vh;
-    max-height: 8000px; /* 根据需要设置最大高度 */
-    overflow-y: auto; /* 允许垂直滚动 */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 70vh;
+  max-height: 8000px;
+  /* 根据需要设置最大高度 */
+  overflow-y: auto;
+  /* 允许垂直滚动 */
 }
 
 .message {
-    max-width: 70%;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
+  max-width: 70%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .message.sent {
-    background-color: #DCF8C6;
-    align-self: flex-end;
+  background-color: #DCF8C6;
+  align-self: flex-end;
 }
 
 .message.received {
-    background-color: #E5E5EA;
-    align-self: flex-start;
+  background-color: #E5E5EA;
+  align-self: flex-start;
 }
 
 .load {
-    text-align: center;
-    padding: 10px 50px;
+  text-align: center;
+  padding: 10px 50px;
 }
 
 /* 整个滚动条的样式 */
 ::-webkit-scrollbar {
-    width: 4px;
-    /* 滚动条的宽度 */
-    height: 10px;
-    /* 水平滚动条的高度 */
+  width: 4px;
+  /* 滚动条的宽度 */
+  height: 10px;
+  /* 水平滚动条的高度 */
 }
 
 /* 滚动条的轨道 */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    /* 轨道的背景颜色 */
-    border-radius: 10px;
-    /* 轨道的圆角 */
+  background: #f1f1f1;
+  /* 轨道的背景颜色 */
+  border-radius: 10px;
+  /* 轨道的圆角 */
 }
 
 /* 滚动条上的滑动块 */
 ::-webkit-scrollbar-thumb {
-    background: #888;
-    /* 滑块的背景颜色 */
-    border-radius: 10px;
-    /* 滑块的圆角 */
+  background: #888;
+  /* 滑块的背景颜色 */
+  border-radius: 10px;
+  /* 滑块的圆角 */
 }
 
 /* 滚动条上的滑动块悬停效果 */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-    /* 滑块悬停时的背景颜色 */
+  background: #555;
+  /* 滑块悬停时的背景颜色 */
 }
 
 .markdown-container {
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-  }
-  
-  .markdown-container h2 {
-    color: #333;
-  }
-  
-  .markdown-container .description {
-    margin-bottom: 10px;
-  }
-  
-  .markdown-container .address {
-    font-style: italic;
-    color: #666;
-  }
-  
-  .markdown-container .transportation {
-    margin-top: 5px;
-    color: #888;
-  }
-  
-  .markdown-container .review {
-    margin-top: 10px;
-    color: #555;
-  }
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.markdown-container h2 {
+  color: #333;
+}
+
+.markdown-container .description {
+  margin-bottom: 10px;
+}
+
+.markdown-container .address {
+  font-style: italic;
+  color: #666;
+}
+
+.markdown-container .transportation {
+  margin-top: 5px;
+  color: #888;
+}
+
+.markdown-container .review {
+  margin-top: 10px;
+  color: #555;
+}
+
+img {
+  max-width: 300px;
+}
+
+.custom-image{
+  max-width: 300px;
+}
+
+markdown ::ng-deep img{
+  max-width: 300px;
+}
