@@ -23,9 +23,9 @@ search_endpoint = "https://tourismeastus.search.windows.net"
 # Add your Azure AI Search endpoint here
 search_key = "meodBNxaf5pcJ9sTQg3aV3K1wbEOl1PpFHDxMz4FdQAzSeDwdB8O"
 # Add your Azure AI Search admin key here
-search_index_name = "vector-1730259365346"
+search_index_name = "monthly2024allfull"
 # Add your Azure AI Search index name here
-semantic_configuration = "vector-1730259365346-semantic-configuration"
+semantic_configuration = "monthly2024allfull-semantic-configuration"
 
 message_string = sys.argv[1]
 role_information = sys.argv[2]
